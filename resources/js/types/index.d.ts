@@ -1,8 +1,10 @@
 export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     email_verified_at?: string;
+    timezone: string;
+    default_currency: string;
 }
 
 export type PageProps<
