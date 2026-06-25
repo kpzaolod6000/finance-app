@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Concerns\HasUuidV7;
+use App\Enums\TransactionType;
+use Database\Factories\TransactionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use HasUuidV7, SoftDeletes;
+    /** @use HasFactory<TransactionFactory> */
+    use HasFactory, HasUuidV7, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -29,6 +33,7 @@ class Transaction extends Model
     protected function casts(): array
     {
         return [
+            'type' => TransactionType::class,
             'amount' => 'decimal:2',
             'occurred_at' => 'date',
         ];
