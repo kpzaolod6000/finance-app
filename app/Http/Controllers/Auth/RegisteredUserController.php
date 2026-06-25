@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Database\Seeders\DefaultCategoriesSeeder;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        (new DefaultCategoriesSeeder)->run($user);
 
         Auth::login($user);
 
