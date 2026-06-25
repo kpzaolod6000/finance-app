@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('accounts', AccountController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('transactions', TransactionController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('budgets', BudgetController::class)->only(['index', 'store', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
