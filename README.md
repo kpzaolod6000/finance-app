@@ -1,118 +1,58 @@
-# Finance App — Personal Expense & Finance Tracker
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-A **Spec-Driven Development (SDD)** package ready to hand off to **Claude Code**.
-Stack: **Laravel 13 + Inertia.js v2 + React 19 + TypeScript + Tailwind v4 + PostgreSQL 16**.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
----
+## About Laravel
 
-## What this is
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-This is not code yet. It's the **executable specification** for the project: the set of
-documents Claude Code reads to build the system in an orderly way, with a defined architecture
-and no improvising. The idea of spec-driven development is simple: first agree on *what* you're
-building and *how*, then write the code.
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-```
-finance-app/
-├── README.md              ← you are here: how to use everything
-├── CLAUDE.md              ← permanent rules Claude Code reads every session
-├── .specify/
-│   ├── constitution.md    ← non-negotiable principles (quality, patterns, security)
-│   ├── spec.md            ← the WHAT: features, business rules, acceptance criteria
-│   ├── plan.md            ← the HOW: architecture, design patterns, technical decisions
-│   ├── data-model.md      ← PostgreSQL schema: tables, relations, indexes
-│   └── tasks.md           ← ordered, verifiable implementation tasks
-└── .claude/skills/finance-mentor/
-    └── SKILL.md           ← technical mentor: triggers on its own to explain the project
-```
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
----
+## Learning Laravel
 
-## The SDD flow (the order Claude Code reads in)
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-```
-constitution.md  →  spec.md  →  plan.md  →  data-model.md  →  tasks.md  →  code
-   principles        what         how         data            steps
-```
+In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-Each document answers a different layer and builds on the previous one. If something isn't in
-the spec, it doesn't get built. If you want a new feature, you update the spec first, then the
-plan/tasks, and only then write code.
+You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
 
----
+## Agentic Development
 
-## How to spin it up with Claude Code (step by step)
-
-### 1. Install Claude Code (if you don't have it)
+Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
 
 ```bash
-npm install -g @anthropic-ai/claude-code
+composer require laravel/boost --dev
+
+php artisan boost:install
 ```
 
-### 2. Use this folder as your project root and enter it
+Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
-```bash
-cd finance-app
-claude
-```
+## Contributing
 
-Claude Code auto-detects `CLAUDE.md` and loads the project context. The `finance-mentor` skill
-becomes available for whenever you ask how something is built.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-### 3. Suggested first prompt (scaffolding)
+## Code of Conduct
 
-Paste this to Claude Code:
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```
-Read .specify/constitution.md, .specify/spec.md, .specify/plan.md,
-.specify/data-model.md and .specify/tasks.md. Then run PHASE 0 of
-tasks.md: create the dockerized Laravel 13 project with the React
-starter kit and Laravel Sail (PostgreSQL service), get the stack
-running with `sail up -d`, and confirm migrations run. This project is
-fully dockerized — every command must go through ./vendor/bin/sail.
-Confirm with me before installing dependencies.
-```
+## Security Vulnerabilities
 
-### 4. Advance phase by phase
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-`tasks.md` is split into phases (0 to 7). Ask Claude Code to run **one phase at a time** and
-review the result before moving on. Don't ask it to "do everything": the point of SDD is to
-review at checkpoints.
+## License
 
-### 5. When you want to learn or start something new
-
-Ask in natural language, e.g.:
-
-- *"How is the transaction creation layer built?"*
-- *"I want to add per-category budgets, how do I approach it technically?"*
-
-The `finance-mentor` skill will trigger and give you the technical explanation + the pattern to
-follow, instead of just writing code blindly.
-
----
-
-## Machine requirements
-
-This project is **fully dockerized**. Your machine only needs:
-
-| Tool | Min version | For |
-|------|-------------|-----|
-| Docker Desktop / Engine | current | runs everything (PHP, Postgres, Node) |
-| Git | any | version control |
-
-> No local PHP, Composer, Node, or PostgreSQL needed — they all live inside containers via
-> **Laravel Sail**. Full setup in `.specify/plan.md` §10.
-
----
-
-## Decisions already made (so you don't have to)
-
-- **Inertia.js v2 + React**, not a separate REST API → single deployment, less boilerplate, real React.
-- **PostgreSQL**, not MySQL → exact `numeric` money types, native enums, better indexes.
-- **Fully dockerized with Laravel Sail** → host needs only Docker; consistent environment everywhere.
-- **Actions + DTOs + Form Requests + Policies** → testable business logic decoupled from controllers.
-- **TypeScript on the front** → clear data contracts between Laravel and React.
-- **Pest** for tests → clean syntax, feature tests over the real logic.
-- **Full-English codebase and UI** → professional repo standard; ready for i18n later.
-
-The full detail and the *why* behind every decision is in `.specify/plan.md`.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
