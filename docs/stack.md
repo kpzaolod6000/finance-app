@@ -2,8 +2,8 @@
 
 > Personal expense & finance tracker · Laravel 13 + Inertia + React 19 + Tailwind v4
 
-**Status:** `sail up -d` → PHP 8.4 + PostgreSQL 16 healthy · 25/25 tests passing · Pint / ESLint / tsc all green  
-**Branch:** `develop` · **Commit:** `203b749` · **Phase:** 0 complete
+**Status:** `sail up -d` → PHP 8.4 + PostgreSQL 16 healthy · 53/53 tests passing · Pint / ESLint / tsc all green  
+**Branch:** `develop` · **Phase:** All 7 phases complete · MVP done
 
 ---
 
@@ -145,15 +145,49 @@ docker run --rm \
 
 ---
 
+## Routes
+
+| Method | URI | Name | Purpose |
+|---|---|---|---|
+| GET | `/dashboard` | `dashboard` | Dashboard with charts + summaries |
+| GET | `/accounts` | `accounts.index` | Account list |
+| POST | `/accounts` | `accounts.store` | Create account |
+| PUT | `/accounts/{id}` | `accounts.update` | Edit account |
+| DELETE | `/accounts/{id}` | `accounts.destroy` | Archive/delete account |
+| GET | `/categories` | `categories.index` | Category list |
+| POST/PUT/DELETE | `/categories/*` | `categories.*` | CRUD categories |
+| GET | `/transactions` | `transactions.index` | Paginated list with filters |
+| POST/PUT/DELETE | `/transactions/*` | `transactions.*` | CRUD transactions |
+| GET | `/budgets` | `budgets.index` | Budget list by month |
+| POST | `/budgets` | `budgets.store` | Set/upsert budget |
+| DELETE | `/budgets/{id}` | `budgets.destroy` | Remove budget |
+| GET | `/reports` | `reports.index` | Monthly summary + chart |
+| GET | `/reports/export` | `reports.export` | CSV download |
+| GET | `/profile` | `profile.edit` | Profile (name/email/timezone/currency) |
+
+---
+
+## Recurring transactions (dev)
+
+```bash
+# Trigger manually
+./vendor/bin/sail artisan transactions:generate-recurring
+
+# Run the scheduler (generates daily at midnight)
+./vendor/bin/sail artisan schedule:work
+```
+
+---
+
 ## Phase progress
 
 | Phase | Description | Status |
 |---|---|---|
 | 0 | Dockerized scaffolding — Laravel 13 + Sail + Tailwind v4 + shadcn | ✅ done |
-| 1 | Authentication & user profile (timezone, default_currency) | pending |
-| 2 | Accounts & categories (migrations, models, Actions, UI) | pending |
-| 3 | Transactions — income / expense / transfer + filters | pending |
-| 4 | Recurring transactions + scheduler | pending |
-| 5 | Budgets with visual alerts (ok / at-risk / exceeded) | pending |
-| 6 | Dashboard + reports + CSV export | pending |
-| 7 | Polish — empty states, a11y, responsive, security audit | pending |
+| 1 | Authentication & user profile (timezone, default_currency) | ✅ done |
+| 2 | Accounts & categories (migrations, models, Actions, UI) | ✅ done |
+| 3 | Transactions — income / expense / transfer + filters | ✅ done |
+| 4 | Recurring transactions + scheduler | ✅ done |
+| 5 | Budgets with visual alerts (ok / at-risk / exceeded) | ✅ done |
+| 6 | Dashboard + reports + CSV export | ✅ done |
+| 7 | Polish — nav links, empty states, security audit | ✅ done |
