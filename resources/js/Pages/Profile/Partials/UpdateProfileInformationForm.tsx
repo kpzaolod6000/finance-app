@@ -69,10 +69,8 @@ export default function UpdateProfileInformation({
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Profile Information
-                </h2>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                <h2 className="text-lg font-semibold text-foreground">Profile information</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
                     Update your name, email address, timezone, and default currency.
                 </p>
             </header>
@@ -82,7 +80,7 @@ export default function UpdateProfileInformation({
                     <InputLabel htmlFor="name" value="Name" />
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="block w-full"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -97,7 +95,7 @@ export default function UpdateProfileInformation({
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="block w-full"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
@@ -110,7 +108,7 @@ export default function UpdateProfileInformation({
                     <InputLabel htmlFor="timezone" value="Timezone" />
                     <select
                         id="timezone"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                        className="field"
                         value={data.timezone}
                         onChange={(e) => setData('timezone', e.target.value)}
                     >
@@ -122,10 +120,10 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="default_currency" value="Default Currency" />
+                    <InputLabel htmlFor="default_currency" value="Default currency" />
                     <select
                         id="default_currency"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                        className="field"
                         value={data.default_currency}
                         onChange={(e) => setData('default_currency', e.target.value)}
                     >
@@ -138,19 +136,19 @@ export default function UpdateProfileInformation({
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
-                        <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
+                        <p className="mt-2 text-sm text-foreground">
                             Your email address is unverified.{' '}
                             <Link
                                 href={route('verification.send')}
                                 method="post"
                                 as="button"
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                                className="link-accent"
                             >
                                 Click here to re-send the verification email.
                             </Link>
                         </p>
                         {status === 'verification-link-sent' && (
-                            <div className="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
+                            <div className="mt-2 text-sm font-medium text-income">
                                 A new verification link has been sent to your email address.
                             </div>
                         )}
@@ -158,7 +156,7 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>Save changes</PrimaryButton>
                     <Transition
                         show={recentlySuccessful}
                         enter="transition ease-in-out"
@@ -166,7 +164,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                        <p className="text-sm text-muted-foreground">Saved.</p>
                     </Transition>
                 </div>
             </form>

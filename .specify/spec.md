@@ -134,3 +134,21 @@ Main screen after signing in.
 - [ ] All business rules (BR1–BR6) have at least one test that verifies them.
 - [ ] The UI is responsive, accessible, and consistent.
 - [ ] No way for a user to access another user's data (authorization test).
+
+---
+
+## 8. Design language (experience expectations)
+
+The product reads as a calm, precise **ledger for adults** — not a colorful student app. This is a
+product requirement, not just styling. (The technical implementation lives in `plan.md` §12.)
+
+- **One coherent identity** across every screen, including authentication. No default framework
+  branding is ever visible.
+- **Dark by default**, neutral palette with a single restrained accent; color is reserved to carry
+  meaning (income vs. expense vs. transfer), never decoration.
+- **Money is legible:** all amounts render in aligned, tabular figures so columns scan cleanly.
+- **Primary navigation is a persistent sidebar** (drawer on mobile); the current section is always
+  clear.
+- **Create/edit happens in a side panel (slide-over)** that scrolls on its own, so long forms never
+  overflow or break the page. Small confirmations may still use a centered dialog.
+- **Empty/error states guide the next action** (see §6) and speak in the interface's voice.

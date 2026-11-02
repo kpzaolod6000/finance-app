@@ -127,13 +127,12 @@ database/
 
 resources/
 ├── js/
-│   ├── Pages/           Dashboard, Accounts/*, Categories/*, Transactions/*, Budgets/*, Reports/*
-│   ├── Components/       ui/ (shadcn), charts/, forms/, layout/
-│   ├── Layouts/          AppLayout, AuthLayout
-│   ├── hooks/            useCurrency, useFilters
-│   ├── lib/              utils, formatMoney, api types
-│   └── types/            TS types mirroring the DTOs
-└── css/                  app.css (Tailwind v4)
+│   ├── Pages/           Dashboard, Accounts/*, Categories/*, Transactions/*, Budgets/*, Reports/*, Auth/*, Profile/*
+│   ├── Components/       shared primitives (ApplicationLogo, PrimaryButton, SecondaryButton, DangerButton,
+│   │                    TextInput, InputLabel, Checkbox, NavLink, SlideOver, Modal, ...) + ui/ (shadcn)
+│   ├── Layouts/          AuthenticatedLayout (sidebar app shell), GuestLayout (two-panel auth)
+│   └── types/            TS types mirroring the DTOs (models.ts)
+└── css/                  app.css (Tailwind v4 — design tokens + component-class layer; see §12)
 
 routes/
 ├── web.php              Inertia routes
@@ -313,3 +312,65 @@ compose (documented in PHASE 4 / the deploy notes).
 - Each Action with its feature test green.
 - Migrations with both `up()` and `down()`.
 - No cross-user access (a test proves it).
+
+---
+
+## 12. Design system (UI) — "Ledger"
+
+The front end has a single, deliberate visual identity: a **private financial ledger for adults**.
+Neutral cool-ink spine + one contained accent. Discipline: **borders, not shadows**; monetary
+figures live in mono, tabular. All of it is driven from `resources/css/app.css` — components do
+**not** hardcode colors.
+
+### 12.1 Tokens (single source of truth: `resources/css/app.css`)
+
+- **Theme:** **dark by default** (`<html class="dark">` in `app.blade.php`); a full light theme is
+  defined under `:root`. Tokens are CSS variables consumed via Tailwind v4 `@theme inline`.
+- **Palette (dark):** `background #0e0f11` · `card #17181b` · `popover #1f2024` · `border #2a2b30` ·
+  `foreground #ececee` · `muted-foreground #9a9ba1`.
+- **Accent (contained):** muted emerald — `primary #4f9d7e` (dark) / `#2f6b52` (light). Used only
+  for primary actions, active nav, and focus rings.
+- **Money semantics (muted, never neon):** `--income` sage, `--expense` clay, `--neutral-amount`
+  pewter (transfers/savings). Exposed as `text-income`, `amount-expense`, etc.
+- **Charts:** Recharts colors come from the same muted set; tooltips/grids reference `var(--popover)`,
+  `var(--border)`, `var(--muted-foreground)` so they follow the theme.
+
+### 12.2 Component-class layer (`@layer components` in `app.css`)
+
+Pages speak a shared vocabulary instead of re-deriving long class strings. Use these; do **not**
+reintroduce `bg-white`, `dark:bg-gray-800`, `indigo-*`, etc.
+
+| Class | Purpose |
+|-------|---------|
+| `.card` / `.card-p` | surface (border, no shadow) / standard padding |
+| `.btn-primary` `.btn-secondary` `.btn-ghost` `.btn-danger` | buttons (shared base via selector list) |
+| `.field` / `.label` / `.field-error` | form controls |
+| `.ledger` | hairline-ruled table (`thead th`, `tbody td` styled) |
+| `.money` | mono + tabular figures (the signature treatment) |
+| `.amount-income` `.amount-expense` `.amount-neutral` | signed figure colors |
+| `.eyebrow` | uppercase section label · `.dot` status dot · `.link-accent` accent link |
+
+> Shared form primitives in `Components/` (`PrimaryButton`, `TextInput`, `InputLabel`, …) are thin
+> wrappers over these classes — restyle the class, not every call site.
+
+### 12.3 Layout patterns
+
+- **App shell:** `AuthenticatedLayout` is a fixed **left sidebar** (brand, icon nav, user footer with
+  logout) + sticky top bar + mobile drawer. Pages pass a plain `header` string for the title.
+  Sidebar icons are inline SVGs (no icon-library version risk).
+- **Auth:** `GuestLayout` is a **two-panel** screen (ink brand panel with ambient ledger texture +
+  form panel). No Laravel branding anywhere; the mark is the custom `ApplicationLogo`.
+- **Forms:** use the **`SlideOver`** right-side sheet (`Components/SlideOver.tsx`), not centered
+  modals — the body scrolls independently so growing forms never break the layout. Footer
+  (Cancel/Save) is sticky. Always-mounted with a `show` prop; reset per target with
+  `key={editing?.id ?? 'new'}`. Centered `Modal` is reserved for small confirmations
+  (e.g. delete-account password check).
+- **Typography:** Geist Variable (UI) + a system mono stack for figures (`--font-mono`, no extra
+  font dependency).
+
+### 12.4 Rules when adding/altering UI
+
+1. Derive every color from a token; never hardcode hex/gray/indigo in components.
+2. New form → `SlideOver`. New table → `.ledger`. New money figure → `.money` + an `amount-*` class.
+3. Keep the accent contained: emerald for primary/active/focus only.
+4. Quality floor: responsive to mobile, visible keyboard focus, accessible labels.

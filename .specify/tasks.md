@@ -144,6 +144,31 @@ Convention: `[ ]` pending · `[~]` in progress · `[x]` done.
 
 ---
 
+## PHASE 8 — "Ledger" design system (UI/UX redesign)
+
+> Establishes the single visual identity (`spec.md` §8, `plan.md` §12). Replaces the starter-kit
+> Breeze look across every view, including auth. No backend/logic changes.
+
+- [x] **8.1** Design tokens + component-class layer in `resources/css/app.css`: dark-default ink
+      palette + light theme, contained emerald accent, muted income/expense/neutral semantics,
+      `--font-mono`, and `.card/.btn-*/.field/.label/.ledger/.money/.eyebrow/...`.
+- [x] **8.2** Dark default + de-Laravel-ify the shell: `<html class="dark">`, drop the Bunny/Figtree
+      font and `'Laravel'` title; custom `ApplicationLogo` (ledger mark).
+- [x] **8.3** App shell → sidebar: rewrite `AuthenticatedLayout` (fixed sidebar, icon nav, user
+      footer, mobile drawer, sticky top bar). Token-based `NavLink`/`ResponsiveNavLink`.
+- [x] **8.4** Auth → two-panel `GuestLayout`; restyle all `Auth/*` pages and `Welcome` (branded
+      landing, no Laravel marketing page).
+- [x] **8.5** Restyle every authenticated page to tokens/component classes: Dashboard, Transactions,
+      Accounts, Budgets, Categories, Reports, Profile (+ partials). Recharts recolored to the theme.
+- [x] **8.6** Replace centered form modals with the `SlideOver` right-side sheet (Transactions,
+      Accounts, Budgets, Categories); keep `Modal` only for the delete-account confirm.
+- [x] **8.7** Quality gate green: `sail npm run types`, `lint`, `build` all pass.
+
+> **Checkpoint 8:** every screen shares the "Ledger" identity; forms open in slide-overs; types,
+> lint, and build are clean. Future UI follows `plan.md` §12 — no hardcoded colors, forms in `SlideOver`.
+
+---
+
 ## How to ask Claude Code to advance
 
 > "Run PHASE 2 of tasks.md. Start at 2.1 and stop at Checkpoint 2 for my review.

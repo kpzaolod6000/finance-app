@@ -8,7 +8,8 @@
 Personal expense & finance tracker. Fixed stack:
 
 - **Backend:** Laravel 13, PHP 8.3+, PostgreSQL 16
-- **Frontend:** Inertia.js v2 + React 19 + TypeScript, Tailwind CSS v4, shadcn/ui
+- **Frontend:** Inertia.js v2 + React 19 + TypeScript, Tailwind CSS v4, shadcn/ui, Recharts
+- **Design:** "Ledger" identity — dark-default neutral ink + contained emerald accent, mono figures, sidebar shell, slide-over forms. Tokens + component classes live in `resources/css/app.css`. See `plan.md` §12.
 - **Auth:** Laravel starter kit (Sanctum under the hood)
 - **Tests:** Pest
 - **Runtime:** fully dockerized with Laravel Sail (host needs only Docker + Git)
@@ -41,6 +42,7 @@ updating `spec.md` → `plan.md` → `tasks.md`, and only then write code.
 - **Authorization via Policies.** Every user query filters by `user_id`, ALWAYS.
 - **Money = `decimal`/`numeric`**, never `float`. Store as `numeric(14,2)`.
 - **Strict TypeScript** on the front. Shared types derived from the DTOs.
+- **UI uses tokens + component classes**, never hardcoded colors. No `bg-white`/`dark:bg-gray-*`/`indigo-*` in components — use `.card`, `.btn-*`, `.field`, `.ledger`, `.money`, `text-income/expense`. Forms go in `SlideOver`, not modals. See `plan.md` §12.
 - **Tests with the code**, not after. Every Action has a feature test.
 - **Small, atomic commits**, imperative mood messages.
 

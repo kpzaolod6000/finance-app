@@ -7,7 +7,8 @@
 
 @theme inline {
     --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'SF Mono', 'Source Code Pro', Menlo, Consolas, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -16,6 +17,9 @@
     --color-sidebar-primary: var(--sidebar-primary);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar: var(--sidebar);
+    --color-income: var(--income);
+    --color-expense: var(--expense);
+    --color-neutral-amount: var(--neutral-amount);
     --color-chart-5: var(--chart-5);
     --color-chart-4: var(--chart-4);
     --color-chart-3: var(--chart-3);
@@ -48,83 +52,197 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * "Ledger" palette — a private financial ledger for adults.
+ * Neutral cool-ink spine + a single contained accent (muted emerald).
+ * Discipline: borders, not shadows. Figures live in mono, tabular.
+ * Dark is the default (see <html class="dark"> in app.blade.php); light is built too.
+ */
+
+/* Light theme — warm-neutral paper, not pure white */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --background: #f7f7f5;
+    --foreground: #16171b;
+    --card: #ffffff;
+    --card-foreground: #16171b;
+    --popover: #ffffff;
+    --popover-foreground: #16171b;
+    --primary: #2f6b52;            /* emerald, darkened for contrast on paper */
+    --primary-foreground: #ffffff;
+    --secondary: #eeeeec;
+    --secondary-foreground: #1f2024;
+    --muted: #eeeeec;
+    --muted-foreground: #5c5e66;
+    --accent: #ecedea;
+    --accent-foreground: #16171b;
+    --destructive: #b14b43;        /* muted clay, not neon red */
+    --border: #e3e3df;
+    --input: #e3e3df;
+    --ring: #2f6b52;
+    --income: #2f7d5b;
+    --expense: #b14b43;
+    --neutral-amount: #4a6b86;     /* transfers / savings — muted pewter */
+    --chart-1: #2f6b52;
+    --chart-2: #4a6b86;
+    --chart-3: #8a7d52;
+    --chart-4: #6b5e86;
+    --chart-5: #9a9ba1;
+    --radius: 0.5rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #16171b;
+    --sidebar-primary: #2f6b52;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #ecedea;
+    --sidebar-accent-foreground: #16171b;
+    --sidebar-border: #e3e3df;
+    --sidebar-ring: #2f6b52;
 }
 
+/* Dark theme — cool ink, layered surfaces, hairline borders (default) */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: #0e0f11;
+    --foreground: #ececee;
+    --card: #17181b;
+    --card-foreground: #ececee;
+    --popover: #1f2024;
+    --popover-foreground: #ececee;
+    --primary: #4f9d7e;            /* muted emerald, lifted for dark surfaces */
+    --primary-foreground: #0b1410;
+    --secondary: #1f2024;
+    --secondary-foreground: #ececee;
+    --muted: #1f2024;
+    --muted-foreground: #9a9ba1;
+    --accent: #22242a;
+    --accent-foreground: #ececee;
+    --destructive: #c26b62;        /* muted clay */
+    --border: #2a2b30;
+    --input: #2a2b30;
+    --ring: #4f9d7e;
+    --income: #6fa287;             /* muted sage */
+    --expense: #c26b62;            /* muted clay */
+    --neutral-amount: #7d9ab5;     /* muted pewter */
+    --chart-1: #4f9d7e;
+    --chart-2: #7d9ab5;
+    --chart-3: #b8a36a;
+    --chart-4: #9b8bc4;
+    --chart-5: #6b6c72;
+    --sidebar: #121316;
+    --sidebar-foreground: #ececee;
+    --sidebar-primary: #4f9d7e;
+    --sidebar-primary-foreground: #0b1410;
+    --sidebar-accent: #1f2024;
+    --sidebar-accent-foreground: #ececee;
+    --sidebar-border: #2a2b30;
+    --sidebar-ring: #4f9d7e;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    html {
+        @apply font-sans;
+        color-scheme: dark;
     }
-  html {
-    @apply font-sans;
+    body {
+        @apply bg-background text-foreground antialiased;
+    }
+    .tnum {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/*
+ * Component layer — the shared vocabulary every page speaks.
+ * Pages reference these instead of re-deriving long class strings.
+ */
+@layer components {
+    /* Surfaces */
+    .card {
+        @apply rounded-xl border border-border bg-card text-card-foreground;
+    }
+    .card-p {
+        @apply p-5;
+    }
+
+    /* Structural labels */
+    .eyebrow {
+        @apply text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground;
+    }
+
+    /* Buttons — shared base via selector list (don't @apply a custom class) */
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .btn-ghost,
+    .btn-danger {
+        @apply inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50;
+    }
+    .btn-primary {
+        @apply bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90;
+    }
+    .btn-secondary {
+        @apply border border-border bg-transparent px-4 py-2 text-foreground hover:bg-muted;
+    }
+    .btn-ghost {
+        @apply px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground;
+    }
+    .btn-danger {
+        @apply bg-destructive/15 px-4 py-2 text-destructive hover:bg-destructive/25;
+    }
+
+    /* Form controls */
+    .label {
+        @apply mb-1.5 block text-sm font-medium text-foreground;
+    }
+    .field {
+        @apply block w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/35;
+    }
+    select.field {
+        @apply pr-8;
+    }
+    .field-error {
+        @apply mt-1.5 text-xs text-destructive;
+    }
+
+    /* Money figures — the signature ledger treatment */
+    .money {
+        @apply font-mono tabular-nums;
+    }
+    .amount-income {
+        @apply text-income;
+    }
+    .amount-expense {
+        @apply text-expense;
+    }
+    .amount-neutral {
+        @apply text-[var(--neutral-amount)];
+    }
+
+    /* Links */
+    .link-accent {
+        @apply text-primary underline-offset-4 transition-colors hover:underline;
+    }
+
+    /* Tables — hairline-ruled ledger rows */
+    .ledger {
+        @apply w-full border-collapse text-sm;
+    }
+    .ledger thead th {
+        @apply border-b border-border px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground;
+    }
+    .ledger tbody td {
+        @apply border-b border-border/70 px-4 py-3 align-middle;
+    }
+    .ledger tbody tr:last-child td {
+        @apply border-b-0;
+    }
+    .ledger tbody tr {
+        @apply transition-colors hover:bg-muted/40;
+    }
+
+    /* Status dot */
+    .dot {
+        @apply inline-block h-2.5 w-2.5 shrink-0 rounded-full;
     }
 }

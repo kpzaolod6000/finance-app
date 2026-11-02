@@ -19,6 +19,10 @@ type MonthlySummary = {
     savings: number;
 };
 
+const INCOME = '#6fa287';
+const EXPENSE = '#c26b62';
+const SAVINGS = '#7d9ab5';
+
 export default function ReportsIndex({ monthly_summary }: { monthly_summary: MonthlySummary[] }) {
     const currency = 'PEN';
 
@@ -28,69 +32,68 @@ export default function ReportsIndex({ monthly_summary }: { monthly_summary: Mon
     const exportUrl = route('reports.export');
 
     return (
-        <AuthenticatedLayout header={<h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Reports</h2>}>
+        <AuthenticatedLayout header="Reports">
             <Head title="Reports" />
-            <div className="py-12">
-                <div className="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
-                    {/* Export button */}
-                    <div className="flex justify-end">
-                        <a
-                            href={exportUrl}
-                            className="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
-                        >
-                            Export CSV
-                        </a>
-                    </div>
+            <div className="mx-auto max-w-5xl space-y-6">
+                <div className="flex justify-end">
+                    <a href={exportUrl} className="btn-secondary">
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M12 3v12" /><path d="m8 11 4 4 4-4" /><path d="M5 21h14" />
+                        </svg>
+                        Export CSV
+                    </a>
+                </div>
 
-                    {/* Bar chart */}
-                    <div className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-                        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Monthly Summary</h3>
-                        {monthly_summary.length === 0 ? (
-                            <p className="py-12 text-center text-sm text-gray-400">No transaction data yet.</p>
-                        ) : (
-                            <ResponsiveContainer width="100%" height={280}>
-                                <BarChart data={monthly_summary}>
-                                    <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-                                    <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                                    <YAxis tick={{ fontSize: 11 }} />
-                                    <Tooltip formatter={(val: unknown) => fmt(Number(val))} />
-                                    <Legend />
-                                    <Bar dataKey="income" name="Income" fill="#22c55e" radius={[4, 4, 0, 0]} />
-                                    <Bar dataKey="expenses" name="Expenses" fill="#ef4444" radius={[4, 4, 0, 0]} />
-                                    <Bar dataKey="savings" name="Savings" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        )}
-                    </div>
-
-                    {/* Monthly table */}
-                    {monthly_summary.length > 0 && (
-                        <div className="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                    <thead className="bg-gray-50 dark:bg-gray-700">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Month</th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Income</th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Expenses</th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Savings</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {monthly_summary.slice().reverse().map((row) => (
-                                            <tr key={row.month}>
-                                                <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{row.month}</td>
-                                                <td className="px-6 py-4 text-right font-mono text-sm text-green-600 dark:text-green-400">{fmt(row.income)}</td>
-                                                <td className="px-6 py-4 text-right font-mono text-sm text-red-600 dark:text-red-400">{fmt(row.expenses)}</td>
-                                                <td className={`px-6 py-4 text-right font-mono text-sm ${row.savings >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-red-600 dark:text-red-400'}`}>{fmt(row.savings)}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div className="card card-p">
+                    <h3 className="eyebrow mb-4">Monthly summary</h3>
+                    {monthly_summary.length === 0 ? (
+                        <p className="py-12 text-center text-sm text-muted-foreground">No transaction data yet.</p>
+                    ) : (
+                        <ResponsiveContainer width="100%" height={280}>
+                            <BarChart data={monthly_summary}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.6} vertical={false} />
+                                <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={{ stroke: 'var(--border)' }} tickLine={false} />
+                                <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
+                                <Tooltip
+                                    cursor={{ fill: 'var(--muted)', opacity: 0.4 }}
+                                    contentStyle={{ background: 'var(--popover)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--popover-foreground)' }}
+                                    formatter={(val: unknown) => fmt(Number(val))}
+                                />
+                                <Legend />
+                                <Bar dataKey="income" name="Income" fill={INCOME} radius={[3, 3, 0, 0]} />
+                                <Bar dataKey="expenses" name="Expenses" fill={EXPENSE} radius={[3, 3, 0, 0]} />
+                                <Bar dataKey="savings" name="Savings" fill={SAVINGS} radius={[3, 3, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
                     )}
                 </div>
+
+                {monthly_summary.length > 0 && (
+                    <div className="card overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="ledger">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th className="text-right">Income</th>
+                                        <th className="text-right">Expenses</th>
+                                        <th className="text-right">Savings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {monthly_summary.slice().reverse().map((row) => (
+                                        <tr key={row.month}>
+                                            <td className="font-medium text-foreground">{row.month}</td>
+                                            <td className="money text-right amount-income">{fmt(row.income)}</td>
+                                            <td className="money text-right amount-expense">{fmt(row.expenses)}</td>
+                                            <td className={`money text-right ${row.savings >= 0 ? 'amount-neutral' : 'amount-expense'}`}>{fmt(row.savings)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
             </div>
         </AuthenticatedLayout>
     );
